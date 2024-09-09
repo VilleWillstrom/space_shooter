@@ -1,0 +1,14 @@
+# Node modules
+node_modules/
+
+# Compiled output
+dist/
+
+# Log files
+*.log
+
+# Environment files if any exists in future
+.env
+
+# TypeScript build info
+*.tsbuildinfo
