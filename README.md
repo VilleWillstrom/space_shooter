@@ -1,6 +1,8 @@
 # Space Shooter
 
-This is a simple TypeScript-based space shooter game that utilizes multiple web APIs to create an interactive experience.
+This is a simple TypeScript-based space shooter game that utilizes multiple web APIs to create an interactive experience. Used web APIs are keyboard API, animation API, Canvas API and audio API.
+
+All audios used in project are royalty free from [Pixabay](https://pixabay.com/sound-effects/)
 
 ## Project Setup
 
