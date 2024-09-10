@@ -1,8 +1,19 @@
 # Space Shooter
 
-This is a simple TypeScript-based space shooter game that utilizes multiple web APIs to create an interactive experience. Used web APIs are keyboard API, animation API, Canvas API and audio API.
+This is a simple TypeScript-based space shooter game that utilizes multiple web APIs to create an interactive experience. 
 
-All audios used in project are royalty free from [Pixabay](https://pixabay.com/sound-effects/)
+This project utilizes the following web APIs:
+
+- **Keyboard API**: Handles user input for controlling the game. The arrow keys are used to move the player, and the spacebar is used to fire projectiles.
+- **Animation API (requestAnimationFrame)**: Manages the game loop, ensuring smooth animation and regular updates of game elements on the screen.
+- **Canvas API**: Responsible for rendering all visual elements in the game, including the player, projectiles, meteors, and explosions.
+- **Web Audio API**: Plays background music and sound effects such as shooting projectiles and meteor explosions, enhancing the immersive experience.
+
+Purpose of this project was to show understanding about utilizing different API:s that web browsers offer.
+
+All audios used in project are royalty free from [Pixabay](https://pixabay.com/sound-effects/).
+
+[Game](https://space-shooter-rx6v.onrender.com/) is hosted live at Render.
 
 ## Project Setup
 

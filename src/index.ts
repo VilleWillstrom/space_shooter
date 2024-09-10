@@ -9,7 +9,7 @@ canvas.height = canvasHeight;
 
 // Define the square properties
 const squareSize = 50;
-const squareSpeed = 5;
+const squareSpeed = 7;
 let squareX = (canvasWidth - squareSize) / 2;
 let moveLeft = false;
 let moveRight = false;
@@ -31,6 +31,9 @@ let spaceBarPressed = false;
 
 // Track whether the game has started
 let gameStarted = false;
+
+// Track the fade out of the text
+let textFadeOut = false;
 
 // Get audio elements
 const bgMusic = document.getElementById('bgMusic') as HTMLAudioElement;
@@ -93,18 +96,39 @@ function drawExplosions() {
     }
 }
 
+// Draw text instructions on the canvas
+function drawInstructions() {
+    if (ctx) {
+        ctx.font = '36px Arial';
+        ctx.fillStyle = `rgba(255, 255, 255, ${textFadeOut ? 1 - (Date.now() - textFadeStart) / textFadeDuration : 1})`;
+        ctx.textAlign = 'center';
+        ctx.fillText('Space Shooter', canvasWidth / 2, canvasHeight / 4);
+
+        ctx.font = '24px Arial';
+        ctx.fillText('Pure gaming experience in 2024 - sound on!', canvasWidth / 2, canvasHeight / 4 + 50);
+
+        ctx.font = '18px Arial';
+        ctx.fillText('Press LEFT or RIGHT arrow keys to start the game.', canvasWidth / 2, canvasHeight / 2);
+        ctx.fillText('Press SPACE to shoot.', canvasWidth / 2, canvasHeight / 2 + 30);
+    }
+}
+
 // Update the position of the square, projectiles, and meteors
 function update() {
     if (moveLeft) {
         squareX -= squareSpeed;
         if (!gameStarted) {
             handleUserInteraction();
+            textFadeOut = true;
+            textFadeStart = Date.now();
         }
     }
     if (moveRight) {
         squareX += squareSpeed;
         if (!gameStarted) {
             handleUserInteraction();
+            textFadeOut = true;
+            textFadeStart = Date.now();
         }
     }
 
@@ -138,11 +162,6 @@ function update() {
             const dy = p.y - m.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < (projectileSize / 2 + meteorSize / 2)) {
-                // Play explosion sound
-                explosionSound.play().catch(error => {
-                    console.error("Failed to play explosion sound:", error);
-                });
-
                 // Create explosion
                 explosions.push({ x: m.x, y: m.y, frame: 0 });
 
@@ -175,6 +194,7 @@ function update() {
         drawProjectiles();
         drawMeteors();
         drawExplosions();
+        drawInstructions();
     }
 
     // Request next frame update
@@ -205,14 +225,15 @@ function handleKeyUp(event: KeyboardEvent) {
 }
 
 // Shoot a projectile
-function shootProjectile() {    // Play shoot sound
-    shootSound.play().catch(error => {
-        console.error("Failed to play shoot sound:", error);
-    });
+function shootProjectile() {
     const projectileX = squareX + squareSize / 2;
     const projectileY = canvasHeight - squareSize - 10;
     projectiles.push({ x: projectileX, y: projectileY });
-    
+
+    // Play shoot sound
+    shootSound.play().catch(error => {
+        console.error("Failed to play shoot sound:", error);
+    });
 }
 
 // Spawn meteors periodically
@@ -227,11 +248,12 @@ function spawnMeteors() {
 window.addEventListener('keydown', handleKeyDown);
 window.addEventListener('keyup', handleKeyUp);
 
-// Add event listener to handle user interaction for audio
-window.addEventListener('click', handleUserInteraction);
-
 // Start the animation loop
 update();
 
 // Spawn meteors every 2 seconds
 setInterval(spawnMeteors, 2000);
+
+// Text fade out settings
+const textFadeDuration = 2000; // Duration for text fade-out in milliseconds
+let textFadeStart = 0;
